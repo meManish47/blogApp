@@ -1,3 +1,4 @@
+"use client";
 import { gqlClient } from "@/actions/gqlaction";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,9 +12,10 @@ import Link from "next/link";
 import SearchBar from "@/components/searchComp/searchbar";
 import DeleteBlogComponent from "@/components/blogComp/deleteBlog";
 import UpdateBlog from "@/components/blogComp/updateBlog";
-const GET_BLOGS = gql`
+import { useEffect, useState } from "react";
+const GET_CURRENT_USER_BLOGS = gql`
   query Query {
-    blogs {
+    currentUserBlogs {
       id
       title
       content
@@ -26,9 +28,22 @@ type Blog = {
   content: String;
   createdAt: String;
 };
-export default async function Page() {
-  const data: { blogs: Blog[] } = await gqlClient.request(GET_BLOGS);
-  const blogs = data.blogs;
+export default function Page() {
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  useEffect(() => {
+    async function getCurrentUserBlogs() {
+      const data: { currentUserBlogs: Blog[] } = await gqlClient.request(
+        GET_CURRENT_USER_BLOGS
+      );
+      console.log("data", data);
+      const blogs = data.currentUserBlogs;
+      console.log(".....", blogs);
+      setBlogs(blogs);
+    }
+    getCurrentUserBlogs();
+    console.log("--_----_--", blogs);
+  }, []);
+
   return (
     <main className="h-screen w-screen flex flex-col gap-4 justify-start items-center pt-10">
       <SearchBar />

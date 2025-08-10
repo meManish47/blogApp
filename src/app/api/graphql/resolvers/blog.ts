@@ -1,3 +1,4 @@
+import { getUserFromCookies } from "@/helper/helper";
 import prismaClient from "@/services/prisma";
 
 export const blog = {
@@ -55,12 +56,55 @@ export default async function addBlogInDb(
     content: string;
   }
 ) {
+  const user = await getUserFromCookies();
+  if (!user) return null;
+  const id = user.id;
   try {
     const blog = await prismaClient.blog.create({
-      data: args,
+      data: { ...args, userId: id },
     });
     if (blog) return blog;
     return null;
+  } catch (err) {
+    return null;
+  }
+}
+export async function deleteBlog(x: any, args: { id: string }) {
+  try {
+    await prismaClient.blog.delete({
+      where: { id: args.id },
+    });
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+export async function updateBlog(
+  x: any,
+  args: { id: string; title: string; content: string }
+) {
+  try {
+    const blog = await prismaClient.blog.update({
+      where: { id: args.id },
+      data: {
+        title: args.title,
+        content: args.content,
+      },
+    });
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+export async function getCurrentUserBlogs() {
+  const currentUser = await getUserFromCookies();
+  if (!currentUser) return null;
+  try {
+    const blogs = await prismaClient.blog.findMany({
+      where: { userId: currentUser.id },
+    });
+    return blogs;
   } catch (err) {
     return null;
   }

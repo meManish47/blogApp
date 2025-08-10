@@ -8,6 +8,8 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import Link from "next/link";
+import UpdateBlog from "@/components/blogComp/updateBlog";
+import DeleteBlogComponent from "@/components/blogComp/deleteBlog";
 
 export default async function Page({
   params,
@@ -34,6 +36,10 @@ export default async function Page({
         <CardDescription className="px-6 text-base">
           {blog.content}
         </CardDescription>
+        <div className="flex gap-2">
+          <UpdateBlog blog={blog} />
+          <DeleteBlogComponent id={blog.id} />
+        </div>
       </Card>
       <Link href="/" className="hover:underline">
         Home

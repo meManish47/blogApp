@@ -1,5 +1,4 @@
 "use client";
-import addDataInDb from "@/actions/actions";
 import { gqlClient } from "@/actions/gqlaction";
 import { Button } from "@/components/ui/button";
 import {

@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import DeleteBlogComponent from "@/components/blogComp/deleteBlog";
+import UpdateBlog from "@/components/blogComp/updateBlog";
 
 export default async function SearchPage({
   searchParams,
@@ -45,6 +47,8 @@ export default async function SearchPage({
             <CardHeader>{blog.title}</CardHeader>
             <CardDescription className="px-6">{blog.content}</CardDescription>
             <CardFooter>
+              <UpdateBlog blog={blog} />
+              <DeleteBlogComponent id={blog.id} />
               <Link href={`/blogs/${blog.id}`}>
                 <Button variant={"link"}>View</Button>
               </Link>
