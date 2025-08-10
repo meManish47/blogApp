@@ -1,0 +1,67 @@
+import prismaClient from "@/services/prisma";
+
+export const blog = {
+  id: "A",
+  title: "Blog",
+  content: "First Blog",
+  createdAt: "Today",
+};
+const blogs = [
+  {
+    id: "A",
+    title: "Blog",
+    content: "First Blog",
+    createdAt: "Today",
+  },
+  {
+    id: "B",
+    title: "Second",
+    content: "Second Blog",
+    createdAt: "yesterday",
+  },
+  {
+    id: "C",
+    title: "Third",
+    content: "First Blog",
+    createdAt: "Today",
+  },
+];
+export async function getBlogbyId(x: any, args: any) {
+  const id = args.id;
+  const blog = await prismaClient.blog.findUnique({
+    where: { id },
+  });
+  return blog;
+}
+export async function getBlogsBySearch(x: any, args: { q: string }) {
+  const query = args.q || "";
+  const blogs = await prismaClient.blog.findMany({
+    where: {
+      title: { contains: query, mode: "insensitive" },
+    },
+  });
+  return blogs;
+}
+
+export async function getblogs() {
+  const blogs = await prismaClient.blog.findMany();
+  return blogs;
+}
+
+export default async function addBlogInDb(
+  x: any,
+  args: {
+    title: string;
+    content: string;
+  }
+) {
+  try {
+    const blog = await prismaClient.blog.create({
+      data: args,
+    });
+    if (blog) return blog;
+    return null;
+  } catch (err) {
+    return null;
+  }
+}
