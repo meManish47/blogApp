@@ -29,3 +29,8 @@ export async function getUserFromCookies() {
     return null;
   }
 }
+export async function deleteCookies() {
+  const userCookies = await cookies();
+  userCookies.delete("token");
+  return true;
+}

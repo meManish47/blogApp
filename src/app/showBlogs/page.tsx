@@ -11,6 +11,8 @@ import Link from "next/link";
 import SearchBar from "@/components/searchComp/searchbar";
 import DeleteBlogComponent from "@/components/blogComp/deleteBlog";
 import UpdateBlog from "@/components/blogComp/updateBlog";
+import BlogCard from "@/components/blogComp/blogcard";
+import { blog } from "../../../generated/prisma";
 const GET_BLOGS = gql`
   query Query {
     blogs {
@@ -20,33 +22,18 @@ const GET_BLOGS = gql`
     }
   }
 `;
-type Blog = {
-  id: String;
-  title: String;
-  content: String;
-  createdAt: String;
-};
+
 export default async function Page() {
-  const data: { blogs: Blog[] } = await gqlClient.request(GET_BLOGS);
+  const data: { blogs: blog[] } = await gqlClient.request(GET_BLOGS);
   const blogs = data.blogs;
   return (
-    <main className="h-screen w-screen flex flex-col gap-4 justify-start items-center pt-10">
+    <main className="h-screen flex flex-col gap-4 justify-start items-center  pt-10">
       <SearchBar />
-      {blogs.map((blog) => {
-        return (
-          <Card className="w-100" key={"#"}>
-            <CardHeader>{blog.title}</CardHeader>
-            <CardDescription className="px-6">{blog.content}</CardDescription>
-            <CardFooter>
-              <Link href={`/blogs/${blog.id}`}>
-                <Button variant={"link"}>View</Button>
-              </Link>
-              <UpdateBlog blog={blog} />
-              <DeleteBlogComponent id={blog.id} />
-            </CardFooter>
-          </Card>
-        );
-      })}
+      <div className="h-full w-[80%]  flex flex-wrap px-4 py-4 gap-4">
+        {blogs.map((blog) => {
+          return <BlogCard blog={blog} />;
+        })}
+      </div>
     </main>
   );
 }

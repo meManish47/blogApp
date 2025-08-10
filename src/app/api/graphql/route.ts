@@ -13,8 +13,7 @@ import addBlogInDb, {
   updateBlog,
 } from "./resolvers/blog";
 import { createUserInDb, LoginUser } from "./resolvers/user";
-import { getUserFromCookies } from "@/helper/helper";
-
+import { deleteCookies, getUserFromCookies } from "@/helper/helper";
 
 const resolvers = {
   Query: {
@@ -22,7 +21,7 @@ const resolvers = {
     blogs: getblogs,
     blogsBySearch: getBlogsBySearch,
     currentUser: getUserFromCookies,
-    currentUserBlogs:getCurrentUserBlogs
+    currentUserBlogs: getCurrentUserBlogs,
   },
   Mutation: {
     createBlog: addBlogInDb,
@@ -30,6 +29,7 @@ const resolvers = {
     updateBlog: updateBlog,
     createUser: createUserInDb,
     loginUser: LoginUser,
+    logoutUser: deleteCookies,
   },
 };
 const server = new ApolloServer({

@@ -43,7 +43,12 @@ export default function Page() {
     getCurrentUserBlogs();
     console.log("--_----_--", blogs);
   }, []);
-
+  if (!blogs)
+    return (
+      <div>
+        <h1>No blogs</h1>
+      </div>
+    );
   return (
     <main className="h-screen w-screen flex flex-col gap-4 justify-start items-center pt-10">
       <SearchBar />

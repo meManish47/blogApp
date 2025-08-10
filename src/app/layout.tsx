@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import Header from "@/components/header/header";
+import NewUserContext from "@/components/NewUserContext";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,15 +17,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`overflow-x-hidden`} suppressHydrationWarning>
+      <body className={`overflow-x-hidden m-0 p-0 `} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          {children}
+          <NewUserContext>
+            <Header />
+            {children}
+          </NewUserContext>
+
           <Toaster richColors />
         </ThemeProvider>
       </body>

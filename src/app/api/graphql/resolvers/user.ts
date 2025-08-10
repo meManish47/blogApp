@@ -3,11 +3,11 @@ import prismaClient from "@/services/prisma";
 import { cookies } from "next/headers";
 export async function createUserInDb(
   x: any,
-  args: { email: String; password: String }
+  args: { email: string; password: string; name: string }
 ) {
   try {
     const user = await prismaClient.user.create({
-      data: { email: args.email as string, password: args.password as string },
+      data: { email: args.email, password: args.password, name: args.name },
     });
     if (user) return true;
     return false;
@@ -37,4 +37,3 @@ export async function LoginUser(
     return false;
   }
 }
-

@@ -1,5 +1,6 @@
 "use client";
 import { gqlClient } from "@/actions/gqlaction";
+import { UserContext } from "@/components/NewUserContext";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,28 +16,36 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { gql } from "graphql-request";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { toast } from "sonner";
 const CREATE_BLOG = gql`
-  mutation Mutation($title: String!, $content: String!) {
-    createBlog(title: $title, content: $content) {
+  mutation Mutation($title: String!, $content: String!, $userId: String!) {
+    createBlog(title: $title, content: $content, userId: $userId) {
       id
       title
       content
+      userId
     }
   }
 `;
 export default function Home() {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
+  const context = useContext(UserContext);
+  const user = context?.user;
   async function handleSubmit() {
     try {
       const data: {
         createBlog: { id: string; title: string; content: string };
-      } = await gqlClient.request(CREATE_BLOG, { title, content });
+      } = await gqlClient.request(CREATE_BLOG, {
+        title,
+        content,
+        userId: user?.id,
+      });
       console.log(data);
       const blog = data.createBlog;
-      if (blog) alert("Success");
-      else alert("Error");
+      if (blog) toast.success("Created");
+      else toast.error("Error");
       setTitle("");
       setContent("");
     } catch (err) {
@@ -46,7 +55,7 @@ export default function Home() {
 
   return (
     <div className="w-screen h-screen flex flex-col gap-6 justify-center items-center">
-      <Card className="w-120">
+      <Card className="w-80 sm:w-120">
         <CardHeader>
           <CardTitle>Add your Blog</CardTitle>
         </CardHeader>

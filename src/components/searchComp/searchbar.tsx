@@ -12,7 +12,7 @@ export default function SearchBar() {
     router.push(`/search?q=${inputVal}`);
   }
   return (
-    <form className="w-[80%] h-18 flex gap-1" onSubmit={handleSubmit}>
+    <form className="max-w-6xl w-full h-18 flex gap-1 mx-2" onSubmit={handleSubmit}>
       <Input
         placeholder="Search blogs"
         type="text"

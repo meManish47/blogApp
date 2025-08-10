@@ -56,7 +56,7 @@ export default function UpdateBlog({
       <Dialog modal={false} open={open} onOpenChange={setOpen}>
         <form>
           <DialogTrigger asChild>
-            <Button variant="outline">Edit</Button>
+            <Button variant="outline" className="h-max">Edit</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>

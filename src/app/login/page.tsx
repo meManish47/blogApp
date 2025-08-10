@@ -35,7 +35,7 @@ export default function LoginPage() {
     });
     if (data.loginUser) {
       toast.success("Logged In!");
-      router.push("/");
+      window.location.href = "/";
     } else {
       toast.error("Failed");
     }
