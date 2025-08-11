@@ -32,7 +32,7 @@ export default function UserDropDown() {
           />
         </DropdownMenuTrigger>
         {user ? (
-          <DropdownMenuContent className="mt-4 me-10">
+          <DropdownMenuContent className="mt-4 me-20">
             <DropdownMenuLabel className="text-sm text-muted-foreground">
               {user.name}
             </DropdownMenuLabel>
@@ -42,7 +42,7 @@ export default function UserDropDown() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         ) : (
-          <DropdownMenuContent>
+          <DropdownMenuContent className="mt-4 me-12">
             <DropdownMenuItem
               className="cursor-pointer"
               onClick={() => (window.location.href = "/login")}

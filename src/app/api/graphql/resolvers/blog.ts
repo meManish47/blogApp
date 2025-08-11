@@ -1,32 +1,7 @@
 import { getUserFromCookies } from "@/helper/helper";
 import prismaClient from "@/services/prisma";
+import { blog } from "../../../../../generated/prisma";
 
-export const blog = {
-  id: "A",
-  title: "Blog",
-  content: "First Blog",
-  createdAt: "Today",
-};
-const blogs = [
-  {
-    id: "A",
-    title: "Blog",
-    content: "First Blog",
-    createdAt: "Today",
-  },
-  {
-    id: "B",
-    title: "Second",
-    content: "Second Blog",
-    createdAt: "yesterday",
-  },
-  {
-    id: "C",
-    title: "Third",
-    content: "First Blog",
-    createdAt: "Today",
-  },
-];
 export async function getBlogbyId(x: any, args: any) {
   const id = args.id;
   const blog = await prismaClient.blog.findUnique({
@@ -54,6 +29,7 @@ export default async function addBlogInDb(
   args: {
     title: string;
     content: string;
+    imageUrl: string;
   }
 ) {
   const user = await getUserFromCookies();
@@ -105,6 +81,18 @@ export async function getCurrentUserBlogs() {
       where: { userId: currentUser.id },
     });
     return blogs;
+  } catch (err) {
+    return null;
+  }
+}
+
+export async function getBlogsUser(blog: blog) {
+  const userId = blog.userId;
+  try {
+    const user = await prismaClient.user.findUnique({
+      where: { id: userId },
+    });
+    return user;
   } catch (err) {
     return null;
   }

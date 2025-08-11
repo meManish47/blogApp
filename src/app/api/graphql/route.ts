@@ -1,14 +1,13 @@
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { ApolloServer } from "@apollo/server";
 import { NextRequest } from "next/server";
-import { gql } from "graphql-tag";
 import typeDefs from "./typeDefs";
 import addBlogInDb, {
-  blog,
   deleteBlog,
   getBlogbyId,
   getblogs,
   getBlogsBySearch,
+  getBlogsUser,
   getCurrentUserBlogs,
   updateBlog,
 } from "./resolvers/blog";
@@ -30,6 +29,9 @@ const resolvers = {
     createUser: createUserInDb,
     loginUser: LoginUser,
     logoutUser: deleteCookies,
+  },
+  Blog: {
+    user: getBlogsUser,
   },
 };
 const server = new ApolloServer({

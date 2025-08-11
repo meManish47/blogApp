@@ -10,7 +10,12 @@ export const typeDefs = gql`
     currentUserBlogs: [Blog]
   }
   type Mutation {
-    createBlog(title: String!, content: String!, userId: String!): Blog
+    createBlog(
+      title: String!
+      content: String!
+      userId: String!
+      imageUrl: String!
+    ): Blog
     deleteBlog(id: String!): Boolean
     updateBlog(id: String!, title: String, content: String): Boolean
     createUser(email: String!, password: String!, name: String): Boolean
@@ -23,6 +28,8 @@ export const typeDefs = gql`
     content: String
     createdAt: String
     userId: String
+    imageUrl: String
+    user: User
   }
   type User {
     id: String

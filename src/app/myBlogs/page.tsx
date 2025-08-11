@@ -1,48 +1,60 @@
 "use client";
 import { gqlClient } from "@/actions/gqlaction";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
 import { gql } from "graphql-request";
-import Link from "next/link";
 import SearchBar from "@/components/searchComp/searchbar";
-import DeleteBlogComponent from "@/components/blogComp/deleteBlog";
-import UpdateBlog from "@/components/blogComp/updateBlog";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import BlogCard from "@/components/blogComp/blogcard";
+import { UserContext } from "@/components/NewUserContext";
+import { BlogWithUser } from "../showBlogs/page";
 const GET_CURRENT_USER_BLOGS = gql`
   query Query {
     currentUserBlogs {
       id
       title
       content
+      imageUrl
+      userId
     }
   }
 `;
-type Blog = {
-  id: String;
-  title: String;
-  content: String;
-  createdAt: String;
-};
+
 export default function Page() {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [blogs, setBlogs] = useState<BlogWithUser[]>([]);
+  const [loading, setLoading] = useState(false);
+  const context = useContext(UserContext);
+  const user = context?.user;
   useEffect(() => {
     async function getCurrentUserBlogs() {
-      const data: { currentUserBlogs: Blog[] } = await gqlClient.request(
+      setLoading(true);
+      const data: { currentUserBlogs: BlogWithUser[] } = await gqlClient.request(
         GET_CURRENT_USER_BLOGS
       );
-      console.log("data", data);
       const blogs = data.currentUserBlogs;
-      console.log(".....", blogs);
+
       setBlogs(blogs);
+      setLoading(false);
     }
     getCurrentUserBlogs();
-    console.log("--_----_--", blogs);
   }, []);
+  if (loading) {
+    return (
+      <main className="h-screen w-screen flex flex-col gap-4 justify-start items-center pt-10">
+        <SearchBar />
+        <div className="h-full w-full flex gap-6 px-4 sm:px-40 flex-wrap">
+          {[0, 0, 0].map((item) => {
+            return (
+              <div className="flex w-100 flex-col gap-8">
+                <div className="skeleton h-32 w-full"></div>
+                <div className="skeleton h-4 w-28"></div>
+                <div className="skeleton h-4 w-full"></div>
+                <div className="skeleton h-4 w-full"></div>
+              </div>
+            );
+          })}
+        </div>
+      </main>
+    );
+  }
   if (!blogs)
     return (
       <div>
@@ -50,23 +62,17 @@ export default function Page() {
       </div>
     );
   return (
-    <main className="h-screen w-screen flex flex-col gap-4 justify-start items-center pt-10">
+    <main className="h-screen w-screen flex flex-col gap-4 justify-start items-center pt-10 px-4 sm:px-40">
       <SearchBar />
-      {blogs.map((blog) => {
-        return (
-          <Card className="w-100" key={"#"}>
-            <CardHeader>{blog.title}</CardHeader>
-            <CardDescription className="px-6">{blog.content}</CardDescription>
-            <CardFooter>
-              <Link href={`/blogs/${blog.id}`}>
-                <Button variant={"link"}>View</Button>
-              </Link>
-              <UpdateBlog blog={blog} />
-              <DeleteBlogComponent id={blog.id} />
-            </CardFooter>
-          </Card>
-        );
-      })}
+      <div className="flex px-8 gap-6  h-full w-full flex-wrap">
+        {blogs.map((blog) => {
+          return (
+            <div key={blog.id as string}>
+              <BlogCard blog={blog} />
+            </div>
+          );
+        })}
+      </div>
     </main>
   );
 }

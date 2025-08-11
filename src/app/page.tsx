@@ -20,17 +20,24 @@ import { useContext, useState } from "react";
 import { toast } from "sonner";
 const CREATE_BLOG = gql`
   mutation Mutation($title: String!, $content: String!, $userId: String!) {
-    createBlog(title: $title, content: $content, userId: $userId) {
+    createBlog(
+      title: $title
+      content: $content
+      userId: $userId
+      imageUrl: $imageUrl
+    ) {
       id
       title
       content
       userId
+      imageUrl
     }
   }
 `;
 export default function Home() {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
+  const [imageUrl, setImageURl] = useState<string>("");
   const context = useContext(UserContext);
   const user = context?.user;
   async function handleSubmit() {
@@ -41,6 +48,7 @@ export default function Home() {
         title,
         content,
         userId: user?.id,
+        imageUrl,
       });
       console.log(data);
       const blog = data.createBlog;
@@ -55,9 +63,9 @@ export default function Home() {
 
   return (
     <div className="w-screen h-screen flex flex-col gap-6 justify-center items-center">
-      <Card className="w-80 sm:w-120">
+      <Card className="w-80 sm:w-120 rounded-sm">
         <CardHeader>
-          <CardTitle>Add your Blog</CardTitle>
+          <CardTitle className="text-base sm:text-xl">Add your Blog</CardTitle>
         </CardHeader>
         <CardContent>
           <form>
@@ -65,11 +73,12 @@ export default function Home() {
               <div className="grid gap-2">
                 <Label>Title</Label>
                 <Input
-                  type="title"
+                  type="text"
                   placeholder="Enter title"
                   required
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
+                  className="rounded-xs"
                 />
               </div>
               <div className="grid gap-2">
@@ -79,21 +88,33 @@ export default function Home() {
                 <Textarea
                   placeholder="Enter content"
                   value={content}
+                  className="rounded-xs"
                   onChange={(e) => setContent(e.target.value)}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label>ImageUrl</Label>
+                <Input
+                  type="text"
+                  placeholder="Enter image url"
+                  required
+                  value={imageUrl}
+                  onChange={(e) => setImageURl(e.target.value)}
+                  className="rounded-xs"
                 />
               </div>
             </div>
           </form>
         </CardContent>
         <CardFooter>
-          <Button className="w-full" onClick={handleSubmit}>
+          <Button
+            className="w-full rounded-xs cursor-pointer"
+            onClick={handleSubmit}
+          >
             Submit
           </Button>
         </CardFooter>
       </Card>
-      <Link href={"/showBlogs"} className="hover:underline underline-offset-6">
-        Show all Blogs
-      </Link>
     </div>
   );
 }
