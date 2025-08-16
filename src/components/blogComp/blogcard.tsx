@@ -10,7 +10,7 @@ import { GradientText } from "../animate-ui/text/gradient";
 export default function BlogCard({ blog }: { blog: BlogWithUser }) {
   const context = useContext(UserContext);
   const user = context?.user;
-
+  console.log("dfsfsdf", blog);
   return (
     <div className="card bg-[#171719] w-96 shadow-sm h-110">
       <figure className="h-[40%] sm:h-1/2 ">
@@ -25,7 +25,7 @@ export default function BlogCard({ blog }: { blog: BlogWithUser }) {
             className="font-bold tracking-widest"
             gradient="linear-gradient(90deg, #f97316 0%, #f43f5e 20%, #8b5cf6 50%, #f43f5e 80%, #f97316 100%)
 "
-            text={`-`+blog.user.name}
+            text={blog.user ? `-` + blog.user?.name : `-` + "Anonymous"}
           />
         </p>
 

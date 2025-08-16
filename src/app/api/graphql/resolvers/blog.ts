@@ -15,6 +15,7 @@ export async function getBlogsBySearch(x: any, args: { q: string }) {
     where: {
       title: { contains: query, mode: "insensitive" },
     },
+    
   });
   return blogs;
 }

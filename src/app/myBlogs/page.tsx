@@ -14,6 +14,9 @@ const GET_CURRENT_USER_BLOGS = gql`
       content
       imageUrl
       userId
+      user {
+        name
+      }
     }
   }
 `;
@@ -26,9 +29,8 @@ export default function Page() {
   useEffect(() => {
     async function getCurrentUserBlogs() {
       setLoading(true);
-      const data: { currentUserBlogs: BlogWithUser[] } = await gqlClient.request(
-        GET_CURRENT_USER_BLOGS
-      );
+      const data: { currentUserBlogs: BlogWithUser[] } =
+        await gqlClient.request(GET_CURRENT_USER_BLOGS);
       const blogs = data.currentUserBlogs;
 
       setBlogs(blogs);
@@ -38,7 +40,7 @@ export default function Page() {
   }, []);
   if (loading) {
     return (
-      <main className="h-screen w-screen flex flex-col gap-4 justify-start items-center pt-10">
+      <main className=" w-screen flex  gap-4 justify-start items-center pt-10">
         <SearchBar />
         <div className="h-full w-full flex gap-6 px-4 sm:px-40 flex-wrap">
           {[0, 0, 0].map((item) => {
