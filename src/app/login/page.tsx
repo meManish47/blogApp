@@ -29,10 +29,12 @@ export default function LoginPage() {
       toast.error("Email and password can't be empty");
       return;
     }
+    console.log("Entered");
     const data: { loginUser: boolean } = await gqlClient.request(LOGIN_USER, {
       email,
       password,
     });
+    console.log("---__--", data);
     if (data.loginUser) {
       toast.success("Logged In!");
       window.location.href = "/";

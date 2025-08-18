@@ -40,12 +40,11 @@ export default function Page() {
   }, []);
   if (loading) {
     return (
-      <main className=" w-screen flex  gap-4 justify-start items-center pt-10">
-        <SearchBar />
+      <main className="h-[100vh] w-screen flex flex-col  gap-4 justify-start items-center pt-10">
         <div className="h-full w-full flex gap-6 px-4 sm:px-40 flex-wrap">
-          {[0, 0, 0].map((item) => {
+          {[0, 0, 0].map((item, index) => {
             return (
-              <div className="flex w-100 flex-col gap-8">
+              <div className="flex w-100 flex-col gap-8" key={index}>
                 <div className="skeleton h-32 w-full"></div>
                 <div className="skeleton h-4 w-28"></div>
                 <div className="skeleton h-4 w-full"></div>
@@ -59,13 +58,12 @@ export default function Page() {
   }
   if (!blogs)
     return (
-      <div>
-        <h1>No blogs</h1>
+      <div className="h-[100vh] w-full">
+        <h1 className="font-bold text-3xl">No blogs</h1>
       </div>
     );
   return (
-    <main className="h-screen w-screen flex flex-col gap-4 justify-start items-center pt-10 px-4 sm:px-40">
-      <SearchBar />
+    <main className="min-h-[100vh] h-full w-screen flex flex-col gap-4 justify-start items-center pt-10 px-4 sm:px-40">
       <div className="flex px-8 gap-6  h-full w-full flex-wrap">
         {blogs.map((blog) => {
           return (

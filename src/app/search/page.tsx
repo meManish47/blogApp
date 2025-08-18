@@ -45,13 +45,13 @@ export default async function SearchPage({
   if (!blogs.length)
     return (
       <main className="h-screen w-screen flex flex-col justify-start p-10 items-center">
-        <h1>No blogs found for search query "{q}"</h1>
+        <h1>No blogs found for search query &quot;{q}&quot;</h1>
       </main>
     );
   return (
     <main className="h-screen w-screen flex flex-col gap-6 justify-start p-10 items-center">
       {blogs.map((blog) => {
-        return <BlogCard blog={blog} />;
+        return <BlogCard blog={blog} key={blog.id}/>;
       })}
     </main>
   );

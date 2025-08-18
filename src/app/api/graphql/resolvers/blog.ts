@@ -2,20 +2,19 @@ import { getUserFromCookies } from "@/helper/helper";
 import prismaClient from "@/services/prisma";
 import { blog } from "../../../../../generated/prisma";
 
-export async function getBlogbyId(x: any, args: any) {
+export async function getBlogbyId(parent:unknown, args: {id:string}) {
   const id = args.id;
   const blog = await prismaClient.blog.findUnique({
     where: { id },
   });
   return blog;
 }
-export async function getBlogsBySearch(x: any, args: { q: string }) {
+export async function getBlogsBySearch(parent:unknown, args: { q: string }) {
   const query = args.q || "";
   const blogs = await prismaClient.blog.findMany({
     where: {
       title: { contains: query, mode: "insensitive" },
     },
-    
   });
   return blogs;
 }
@@ -26,7 +25,7 @@ export async function getblogs() {
 }
 
 export default async function addBlogInDb(
-  x: any,
+  parent:unknown,
   args: {
     title: string;
     content: string;
@@ -46,7 +45,7 @@ export default async function addBlogInDb(
     return null;
   }
 }
-export async function deleteBlog(x: any, args: { id: string }) {
+export async function deleteBlog(parent:unknown, args: { id: string }) {
   try {
     await prismaClient.blog.delete({
       where: { id: args.id },
@@ -57,7 +56,7 @@ export async function deleteBlog(x: any, args: { id: string }) {
   }
 }
 export async function updateBlog(
-  x: any,
+  parent:unknown,
   args: { id: string; title: string; content: string }
 ) {
   try {

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { gqlClient } from "@/actions/gqlaction";
 import { gql } from "graphql-request";
 import SearchBar from "@/components/searchComp/searchbar";
@@ -30,7 +31,7 @@ export default async function Page() {
       <SearchBar />
       <div className="h-full w-[80%]  flex flex-wrap px-4 py-4 gap-4">
         {blogs.map((blog) => {
-          return <BlogCard blog={blog} />;
+          return <BlogCard blog={blog} key={blog.id} />;
         })}
       </div>
     </main>

@@ -26,7 +26,7 @@ export default function LoginPage() {
   const [name, setName] = useState("");
   const router = useRouter();
   async function handleClick() {
-    const data: { createUser: Boolean } = await gqlClient.request(CREATE_USER, {
+    const data: { createUser: boolean } = await gqlClient.request(CREATE_USER, {
       email,
       password,
       name,

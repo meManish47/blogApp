@@ -9,7 +9,7 @@ const DELETE_BLOG = gql`
     deleteBlog(id: $deleteBlogId)
   }
 `;
-export default function DeleteBlogComponent({ id }: { id: String }) {
+export default function DeleteBlogComponent({ id }: { id: string }) {
   async function handleClick() {
     const data: { deleteBlog: boolean } = await gqlClient.request(DELETE_BLOG, {
       deleteBlogId: id,

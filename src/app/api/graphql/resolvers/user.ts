@@ -2,7 +2,7 @@ import { createToken } from "@/services/jwt";
 import prismaClient from "@/services/prisma";
 import { cookies } from "next/headers";
 export async function createUserInDb(
-  x: any,
+  parent:unknown,
   args: { email: string; password: string; name: string }
 ) {
   try {
@@ -16,8 +16,8 @@ export async function createUserInDb(
   }
 }
 export async function LoginUser(
-  x: any,
-  args: { email: String; password: String }
+  parent:unknown,
+  args: { email: string; password: string }
 ) {
   const userCookies = await cookies();
   try {

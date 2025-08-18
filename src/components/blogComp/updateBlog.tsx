@@ -26,13 +26,13 @@ export default function UpdateBlog({
   blog,
 }: {
   blog: {
-    id: String;
-    title: String;
-    content: String;
+    id: string;
+    title: string;
+    content: string;
   };
 }) {
-  const [title, setTitle] = useState<String>(blog.title);
-  const [content, setContent] = useState<String>(blog.content);
+  const [title, setTitle] = useState<string>(blog.title);
+  const [content, setContent] = useState<string>(blog.content);
   const [open, setOpen] = useState(false);
   async function handleSubmit() {
     if (!title || !content) {
