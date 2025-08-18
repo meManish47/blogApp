@@ -5,7 +5,7 @@ import { blog } from "../../../../../generated/prisma";
 export async function getBlogbyId(parent:unknown, args: {id:string}) {
   const id = args.id;
   const blog = await prismaClient.blog.findUnique({
-    where: { id },
+    where: { id }
   });
   return blog;
 }

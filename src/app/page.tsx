@@ -19,7 +19,12 @@ import Link from "next/link";
 import { useContext, useState } from "react";
 import { toast } from "sonner";
 const CREATE_BLOG = gql`
-  mutation Mutation($title: String!, $content: String!, $userId: String!) {
+  mutation Mutation(
+    $title: String!
+    $content: String!
+    $userId: String!
+    $imageUrl: String!
+  ) {
     createBlog(
       title: $title
       content: $content
@@ -31,6 +36,11 @@ const CREATE_BLOG = gql`
       content
       userId
       imageUrl
+      user {
+        name
+        email
+        id
+      }
     }
   }
 `;
@@ -56,6 +66,7 @@ export default function Home() {
       else toast.error("Error");
       setTitle("");
       setContent("");
+      setImageURl("");
     } catch (err) {
       alert((err as Error).message);
     }
