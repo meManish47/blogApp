@@ -12,7 +12,7 @@ export default function BlogCard({ blog }: { blog: BlogWithUser }) {
   const user = context?.user;
   console.log("dfsfsdf", blog);
   return (
-    <div className="card bg-[#171719] w-96 shadow-sm h-110">
+    <div className="card dark:bg-[#171719] w-96 shadow-sm h-110">
       <figure className="h-[40%] sm:h-1/2 ">
         <img src={blog.imageUrl} alt="Shoes" className=" object-cover" />
       </figure>
